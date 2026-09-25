@@ -185,4 +185,28 @@ class StoreRepository implements StoreRepositoryInterface
 
         return $response;
     }
+    public function deleteByIds(array $storeIds): bool
+    {
+        if (empty($storeIds)) {
+            return false;
+        }
+
+        try {
+            $connection = $this->resource->getConnection();
+
+            $connection->delete(
+                $this->resource->getMainTable(),
+                [
+                    'store_id IN (?)' => $storeIds
+                ]
+            );
+
+            return true;
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException(
+                __('Unable to delete the store locations.'),
+                $exception
+            );
+        }
+    }
 }

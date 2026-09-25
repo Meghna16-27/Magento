@@ -1,3 +1,0 @@
-<resource id="Magento_Backend::admin">
-    <resource id="Codilar_Faq::faq" title="FAQ" sortOrder="50"/>
-</resource>

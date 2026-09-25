@@ -4,4 +4,29 @@
     <preference for="Codilar\StoreLocation\Api\Data\StoreInterface" type="Codilar\StoreLocation\Model\Store"/>
     <preference for="Codilar\StoreLocation\Api\StoreRepositoryInterface" type="Codilar\StoreLocation\Model\StoreRepository"/>
     <preference for="Codilar\StoreLocation\Api\Data\StoreApiResponseInterface" type="Codilar\StoreLocation\Model\StoreApiResponse"/>
+
+    <virtualType name="Codilar\StoreLocation\Model\ResourceModel\Store\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">
+                store_location
+            </argument>
+            <argument name="resourceModel" xsi:type="string">
+                Codilar\StoreLocation\Model\ResourceModel\Store
+            </argument>
+
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="codilar_storelocation_listing_data_source"
+                      xsi:type="string">
+                    Codilar\StoreLocation\Model\ResourceModel\Store\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
    </config>

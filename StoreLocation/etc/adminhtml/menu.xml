@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+
+    <menu>
+
+        <add
+            id="Codilar_StoreLocation::store_location"
+            title="Store Locations"
+            module="Codilar_StoreLocation"
+            sortOrder="50"
+            parent="Magento_Catalog::inventory"
+            action="storelocation/index/index"
+            resource="Codilar_StoreLocation::store_location"
+        />
+
+    </menu>
+
+</config>

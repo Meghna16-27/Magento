@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                codilar_storelocation_listing.codilar_storelocation_listing_data_source
+            </item>
+        </item>
+    </argument>
+
+
+    <settings>
+
+        <spinner>store_location_columns</spinner>
+
+        <deps>
+            <dep>
+                codilar_storelocation_listing.codilar_storelocation_listing_data_source
+            </dep>
+        </deps>
+
+
+        <buttons>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add New Store Location</label>
+            </button>
+        </buttons>
+
+    </settings>
+
+
+    <!-- Data Source -->
+    <dataSource name="codilar_storelocation_listing_data_source"
+                component="Magento_Ui/js/grid/provider">
+
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">store_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+
+        <aclResource>Codilar_StoreLocation::store_location</aclResource>
+
+        <dataProvider
+            name="codilar_storelocation_listing_data_source"
+            class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+
+            <settings>
+                <requestFieldName>store_id</requestFieldName>
+                <primaryFieldName>store_id</primaryFieldName>
+            </settings>
+
+        </dataProvider>
+
+    </dataSource>
+
+
+    <!-- Toolbar -->
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <settings>
+                <selectProvider>codilar_storelocation_listing.codilar_storelocation_listing.store_location_columns.ids</selectProvider>
+                <indexField>store_id</indexField>
+            </settings>
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="storelocation/index/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+
+    <columns name="store_location_columns">
+
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>store_id</indexField>
+                <preserveSelectionsOnFilter>true</preserveSelectionsOnFilter>
+            </settings>
+        </selectionsColumn>
+
+        <column name="store_id" sortOrder="10">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+
+        <column name="name" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Store Name</label>
+            </settings>
+        </column>
+
+        <column name="address" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Address</label>
+            </settings>
+        </column>
+
+        <column name="city" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">City</label>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions" class="Codilar\StoreLocation\Ui\Component\Listing\Column\StoreActions" sortOrder="50">
+            <settings>
+                <indexField>store_id</indexField>
+                <label translate="true">Action</label>
+            </settings>
+        </actionsColumn>
+
+    </columns>
+
+</listing>

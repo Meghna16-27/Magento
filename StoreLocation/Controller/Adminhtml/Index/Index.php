@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Codilar\StoreLocation\Controller\Adminhtml\Index;
+
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
@@ -8,7 +12,7 @@ use Magento\Framework\View\Result\PageFactory;
 
 class Index extends Action implements HttpGetActionInterface
 {
-    public const ADMIN_RESOURCE = 'Codilar_Faq::faq';
+    public const ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
 
     public function __construct(
         Context $context,
@@ -20,13 +24,8 @@ class Index extends Action implements HttpGetActionInterface
     public function execute(): Page
     {
         $page = $this->pageFactory->create();
-
-        $page->setActiveMenu('Codilar_Faq::faq');
-
-        $page->getConfig()
-            ->getTitle()
-            ->prepend(__('FAQs'));
-
+        $page->setActiveMenu('Codilar_StoreLocation::store_location');
+        $page->getConfig()->getTitle()->prepend(__('Store Locations'));
         return $page;
     }
 }

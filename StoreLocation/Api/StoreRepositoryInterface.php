@@ -32,6 +32,12 @@ interface StoreRepositoryInterface
     public function deleteById(int $storeId): StoreApiResponseInterface;
 
     /**
+     * @param array $storeIds
+     * @return bool
+     */
+    public function deleteByIds(array $storeIds): bool;
+
+    /**
      * @return \Codilar\StoreLocation\Api\Data\StoreApiResponseInterface
      */
     public function getList(): StoreApiResponseInterface;

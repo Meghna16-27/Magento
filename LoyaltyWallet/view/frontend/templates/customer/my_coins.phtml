@@ -1,99 +1,200 @@
 <?php
-/** @var \Codilar\LoyaltyWallet\Block\Customer\Coins $block */
+/** @var Coins $block */
+
+use Codilar\LoyaltyWallet\Block\Customer\Coins;
+
 $totalCoins = $block->getTotalCoins();
 $transactions = $block->getCustomerTransactions();
 ?>
 
-<div class="loyalty-coins-dashboard" style="margin-bottom: 30px;">
-    <!-- Dynamic Header Balance Widget -->
-    <div style="background: linear-gradient(135deg, #006bb4, #004d80); color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center;">
+<div class="loyalty-coins-dashboard">
+
+    <!-- Balance Header -->
+    <div class="loyalty-coins-header">
+
         <div>
-            <h2 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 400; color: #e8f4fd;"><?= __('My Coins Balance') ?></h2>
-            <div style="font-size: 36px; font-weight: bold; margin: 0;">
-                🪙 <?= (int)$totalCoins ?> <span style="font-size: 20px; font-weight: normal;">Coins Available</span>
+            <h2 class="loyalty-coins-title">
+                <?= __('My Coins Balance') ?>
+            </h2>
+
+            <div class="loyalty-coins-balance">
+                🪙 <?= (int)$totalCoins ?>
+
+                <span class="loyalty-coins-balance-label">
+                    <?= __('Coins Available') ?>
+                </span>
             </div>
         </div>
 
-        <!-- Conversion Form Box -->
-        <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.2);">
-            <form action="<?= $block->getUrl('loyalty/wallet/convert') ?>" method="POST" id="coin-conversion-form" style="display: flex; gap: 10px; align-items: center; margin: 0;">
+        <!-- Conversion Form -->
+        <div class="coin-conversion-box">
+
+            <form
+                action="<?= $block->getUrl('loyalty/wallet/convert') ?>"
+                method="POST"
+                id="coin-conversion-form"
+                class="coin-conversion-form"
+            >
+
                 <?= $block->getBlockHtml('formkey') ?>
+
                 <div>
-                    <label for="coins_to_convert" style="display: block; font-size: 12px; margin-bottom: 4px; color: #e8f4fd;"><?= __('Convert to Wallet (1 Coin = ₹1):') ?></label>
-                    <input type="number" name="coins_to_convert" id="coins_to_convert" min="1" step="1" max="<?= (int)$totalCoins ?>" value="<?= (int)$totalCoins ?>" placeholder="Enter coins" class="input-text" required style="width: 140px; padding: 6px; border-radius: 4px; border: none;" />
+                    <label
+                        for="coins_to_convert"
+                        class="coin-conversion-label"
+                    >
+                        <?= __('Convert to Wallet (1 Coin = ₹1):') ?>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="coins_to_convert"
+                        id="coins_to_convert"
+                        min="1"
+                        step="1"
+                        max="<?= (int)$totalCoins ?>"
+                        value="<?= (int)$totalCoins ?>"
+                        placeholder="<?= __('Enter coins') ?>"
+                        class="input-text coin-conversion-input"
+                        required
+                    />
                 </div>
-                <button type="submit" class="action submit primary" style="background: #ffc107; color: #000; border: none; padding: 8px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 18px;">
+
+                <button
+                    type="submit"
+                    class="action submit primary coin-conversion-button"
+                >
                     <span><?= __('Convert') ?></span>
                 </button>
+
             </form>
+
         </div>
     </div>
 
-    <!-- Transaction History Table -->
-    <div style="margin-top: 30px;">
-        <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px; color: #333;"><?= __('Coins Transaction History') ?></h3>
+
+    <!-- Transaction History -->
+    <div class="coins-history">
+
+        <h3 class="coins-history-title">
+            <?= __('Coins Transaction History') ?>
+        </h3>
 
         <?php if (!empty($transactions)): ?>
-            <div class="table-wrapper" style="overflow-x: auto; margin-top: 15px;">
-                <table class="data table table-order-items" style="width: 100%; border-collapse: collapse; text-align: left;">
+
+            <div class="table-wrapper coins-table-wrapper">
+
+                <table class="data table table-order-items coins-table">
+
                     <thead>
-                    <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6;">
-                        <th style="padding: 12px; border: 1px solid #dee2e6;"><?= __('Order ID') ?></th>
-                        <th style="padding: 12px; border: 1px solid #dee2e6;"><?= __('Coins Movement') ?></th>
-                        <th style="padding: 12px; border: 1px solid #dee2e6;"><?= __('Expires On') ?></th>
-                        <th style="padding: 12px; border: 1px solid #dee2e6;"><?= __('Balance After') ?></th>
-                        <th style="padding: 12px; border: 1px solid #dee2e6;"><?= __('Date') ?></th>
+                    <tr>
+                        <th><?= __('Order ID') ?></th>
+                        <th><?= __('Coins Movement') ?></th>
+                        <th><?= __('Expires On') ?></th>
+                        <th><?= __('Balance After') ?></th>
+                        <th><?= __('Date') ?></th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    <?php foreach ($transactions as $txn):
+
+                    <?php foreach ($transactions as $txn): ?>
+
+                        <?php
                         $qty = (int)$txn->getQuantity();
                         $isPositive = $qty > 0;
                         $comment = $txn->getComment();
                         $createdAt = $txn->getCreatedAt();
 
-                        // Calculate Expiry Date (12 months from creation for positive earnings)
                         $expiresOnFormatted = '-';
+
                         if ($isPositive && $createdAt) {
-                            $expiryDate = new \DateTime($createdAt);
+                            $expiryDate = new DateTime($createdAt);
                             $expiryDate->modify('+12 months');
                             $expiresOnFormatted = $expiryDate->format('M d, Y H:i');
                         }
                         ?>
+
                         <tr>
-                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>#<?= $block->escapeHtml($txn->getOrderIncrementId() ?? 'N/A') ?></strong></td>
-                            <td style="padding: 12px; border: 1px solid #dee2e6; color: <?= $isPositive ? '#28a745' : '#dc3545' ?>; font-weight: bold;">
+
+                            <td>
+                                <strong>
+                                    #<?= $block->escapeHtml($txn->getOrderIncrementId() ?? 'N/A') ?>
+                                </strong>
+                            </td>
+
+                            <td
+                                class="coins-movement <?= $isPositive ? 'coins-movement-positive' : 'coins-movement-negative' ?>"
+                            >
                                 <?= $isPositive ? '+' . $qty : $qty ?>
-                                <span style="font-size: 11px; font-weight: normal; color: #666; display: block;">
+
+                                <span class="coins-movement-description">
+
                                     <?php if ($isPositive): ?>
+
                                         <?= __('Earned from Purchase') ?>
+
                                     <?php elseif ($comment === 'Points Expired'): ?>
+
                                         <?= __('Expired (FIFO rule)') ?>
+
                                     <?php elseif ($comment === 'Order Canceled'): ?>
+
                                         <?= __('Reversed due to Order Cancellation') ?>
+
                                     <?php else: ?>
+
                                         <?= $block->escapeHtml($comment) ?>
+
                                     <?php endif; ?>
+
                                 </span>
                             </td>
-                            <td style="padding: 12px; border: 1px solid #dee2e6; color: #555; font-size: 13px;">
+
+                            <td class="coins-expiry-cell">
+
                                 <?php if ($isPositive): ?>
-                                    <span style="color: #d9534f; font-weight: 500;"><?= $block->escapeHtml($expiresOnFormatted) ?></span>
+
+                                    <span class="coins-expiry">
+                                        <?= $block->escapeHtml($expiresOnFormatted) ?>
+                                    </span>
+
                                 <?php else: ?>
+
                                     -
+
                                 <?php endif; ?>
+
                             </td>
-                            <td style="padding: 12px; border: 1px solid #dee2e6;"><?= (int)$txn->getBalanceAfter() ?></td>
-                            <td style="padding: 12px; border: 1px solid #dee2e6; color: #666;"><?= $block->escapeHtml($createdAt) ?></td>
+
+                            <td>
+                                <?= (int)$txn->getBalanceAfter() ?>
+                            </td>
+
+                            <td class="coins-date">
+                                <?= $block->escapeHtml($createdAt) ?>
+                            </td>
+
                         </tr>
+
                     <?php endforeach; ?>
+
                     </tbody>
+
                 </table>
+
             </div>
+
         <?php else: ?>
-            <div class="message info empty" style="padding: 15px; background: #e8f4fd; border: 1px solid #bce8f1; color: #31708f; border-radius: 4px; margin-top: 15px;">
-                <span><?= __('You have no coin transactions yet.') ?></span>
+
+            <div class="message info empty coins-empty-message">
+                <span>
+                    <?= __('You have no coin transactions yet.') ?>
+                </span>
             </div>
+
         <?php endif; ?>
+
     </div>
+
 </div>
