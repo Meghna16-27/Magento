@@ -10,12 +10,13 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Upload extends Action implements HttpPostActionInterface
 {
-    public const ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
+    public const string ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
 
     public function __construct(Context $context, private readonly JsonFactory $jsonFactory, private readonly ImageUploader $imageUploader, private readonly LoggerInterface $logger)
     {

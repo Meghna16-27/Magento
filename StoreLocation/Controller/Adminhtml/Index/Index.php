@@ -21,6 +21,10 @@ class Index extends Action implements HttpGetActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * @return Page
+     */
+
     public function execute(): Page
     {
         $page = $this->pageFactory->create();

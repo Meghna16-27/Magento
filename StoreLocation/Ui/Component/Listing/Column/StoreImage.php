@@ -6,8 +6,8 @@ namespace Codilar\StoreLocation\Ui\Component\Listing\Column;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
-use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 class StoreImage extends Column
 {
@@ -34,7 +34,6 @@ class StoreImage extends Column
                     $item[$fieldName . '_src'] = $path . $imageName;
                     $item[$fieldName . '_orig_src'] = $path . $imageName;
                     $item[$fieldName . '_alt'] = $item['name'] ?? 'Store Image';
-                    $item[$fieldName . '_link'] = $this->context->getRequestParam('store_id'); // Optional click link
                 }
             }
         }

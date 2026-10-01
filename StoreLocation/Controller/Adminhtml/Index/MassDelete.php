@@ -11,7 +11,7 @@ use Magento\Ui\Component\MassAction\Filter;
 
 class MassDelete extends Action
 {
-    const ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
+    const string ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
 
     public function __construct(
         Context $context,
@@ -21,6 +21,10 @@ class MassDelete extends Action
     ) {
         parent::__construct($context);
     }
+
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     */
 
     public function execute()
     {

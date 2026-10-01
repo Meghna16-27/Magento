@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Codilar\StoreLocation\Controller\Adminhtml\Index;
 
+use Codilar\StoreLocation\Model\ImageUploader;
+use Codilar\StoreLocation\Model\ResourceModel\Store as StoreResource;
+use Codilar\StoreLocation\Model\StoreFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Codilar\StoreLocation\Model\ImageUploader;
-use Codilar\StoreLocation\Model\StoreFactory;
-use Codilar\StoreLocation\Model\ResourceModel\Store as StoreResource;
 use Psr\Log\LoggerInterface;
 
 class Save extends Action implements HttpPostActionInterface
@@ -99,9 +99,9 @@ class Save extends Action implements HttpPostActionInterface
             $this->messageManager->addSuccessMessage(__('You saved the store location.'));
             $this->_getSession()->setFormData(false);
 
-            if ($this->getRequest()->getParam('back')) {
-                return $this->_redirect('*/*/edit', ['store_id' => $model->getId(), '_current' => true]);
-            }
+            //            if ($this->getRequest()->getParam('back')) {
+            //                return $this->_redirect('*/*/edit', ['store_id' => $model->getId(), '_current' => true]);
+            //            }
 
             return $this->_redirect('*/*/index');
         } catch (\Throwable $e) {

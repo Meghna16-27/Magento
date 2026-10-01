@@ -13,7 +13,7 @@ use Codilar\StoreLocation\Model\ResourceModel\Store as StoreResource;
 
 class Edit extends Action implements HttpGetActionInterface
 {
-    public const ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
+    public const string ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
 
     public function __construct(
         Context $context,
@@ -24,6 +24,9 @@ class Edit extends Action implements HttpGetActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     */
     public function execute()
     {
         $id = (int) $this->getRequest()->getParam('store_id');
