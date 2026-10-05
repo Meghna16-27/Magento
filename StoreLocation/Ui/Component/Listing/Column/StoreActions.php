@@ -10,18 +10,16 @@ class StoreActions extends Column
 {
     const URL_PATH_EDIT = 'storelocation/index/edit';
 
-    protected $urlBuilder;
-
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
-        UrlInterface $urlBuilder,
+        private readonly UrlInterface $urlBuilder,
         array $components = [],
         array $data = []
     ) {
-        $this->urlBuilder = $urlBuilder;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
+
 
     public function prepareDataSource(array $dataSource)
     {

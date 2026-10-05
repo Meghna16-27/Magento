@@ -26,7 +26,7 @@
 
         <buttons>
             <button name="add">
-                <url path="*/*/new"/>
+                <url path="*/*/edit"/>
                 <class>primary</class>
                 <label translate="true">Add New Store Location</label>
             </button>

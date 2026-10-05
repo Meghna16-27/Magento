@@ -11,7 +11,7 @@ use Magento\Ui\Component\MassAction\Filter;
 
 class MassDelete extends Action
 {
-    const string ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
+    public const string ADMIN_RESOURCE = 'Codilar_StoreLocation::store_location';
 
     public function __construct(
         Context $context,
