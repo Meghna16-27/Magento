@@ -1,0 +1,30 @@
+<!--@subject {{trans "You've earned loyalty points for your order!"}} @-->
+<!--@vars {
+"var order": "Magento\\Sales\\Model\\Order",
+"var customer_name": "string",
+"var earned_loyalty_points": "number"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table class="message-boxes">
+    <tr class="address-details">
+        <td>
+            <h3>{{trans "Loyalty Points Reward"}}</h3>
+            <!-- Fixed: Using direct variable rendering for dynamic user data -->
+            <p>{{trans "Hello, %customer_name," customer_name=$customer_name}}</p>
+            <p>Thank you for shopping with us! Your order #<strong>{{var order.increment_id}}</strong> has been placed successfully.</p>
+        </td>
+    </tr>
+</table>
+
+<table class="message-boxes" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; margin: 20px 0; width: 100%;">
+    <tr>
+        <td>
+            <h4 style="margin: 0 0 5px 0; color: #28a745;">Loyalty Points Earned!</h4>
+            <p style="margin: 0;">You have earned <strong>{{var earned_loyalty_points}}</strong> loyalty points from this purchase.</p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

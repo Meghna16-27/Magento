@@ -13,6 +13,7 @@
 
         <observer name="codilar_wallet_deduct_on_order"
                   instance="Codilar\LoyaltyWallet\Observer\DeductWalletOnOrderPlace"/>
+        <observer name="codilar_send_code_based_loyalty_email" instance="Codilar\LoyaltyWallet\Observer\SendCodeBasedLoyaltyEmail"/>
 
     </event>
 
