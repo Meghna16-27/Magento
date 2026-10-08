@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">codilar_product_restriction_form.codilar_product_restriction_form_data_source</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Codilar\ProductRestriction\Block\Adminhtml\Restriction\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Codilar\ProductRestriction\Block\Adminhtml\Restriction\Edit\DeleteButton</item>
+            <item name="save" xsi:type="string">Codilar\ProductRestriction\Block\Adminhtml\Restriction\Edit\SaveButton</item>
+        </item>
+    </argument>
+    <settings>
+        <namespace>codilar_product_restriction_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>codilar_product_restriction_form.codilar_product_restriction_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="codilar_product_restriction_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="codilar_productrestriction/restriction/save"/>
+        </settings>
+        <dataProvider class="Codilar\ProductRestriction\Model\Restriction\DataProvider" name="codilar_product_restriction_form_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label translate="true">Restriction Information</label>
+        </settings>
+        <field name="entity_id" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>entity_id</dataScope>
+            </settings>
+        </field>
+        <field name="sku" formElement="input" sortOrder="10">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Product SKU</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="max_qty" formElement="input" sortOrder="20">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Maximum Quantity</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+</form>
