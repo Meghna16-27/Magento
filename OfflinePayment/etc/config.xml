@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+
+    <default>
+
+        <payment>
+
+            <offlinepayment>
+
+                <active>1</active>
+
+                <model>Codilar\OfflinePayment\Model\Payment\OfflinePayment</model>
+
+                <title>Offline Payment</title>
+
+                <order_status>pending</order_status>
+
+                <allowspecific>0</allowspecific>
+
+                <sort_order>5</sort_order>
+
+            </offlinepayment>
+
+        </payment>
+
+    </default>
+
+</config>
