@@ -2,29 +2,27 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-
+SELECT * FROM `store_location` WHERE 1
     <default>
-
         <payment>
-
             <offlinepayment>
-
                 <active>1</active>
-
-                <model>Codilar\OfflinePayment\Model\Payment\OfflinePayment</model>
-
+                <model>CodilarOfflinePaymentFacade</model>
                 <title>Offline Payment</title>
-
                 <order_status>pending</order_status>
-
                 <allowspecific>0</allowspecific>
-
                 <sort_order>5</sort_order>
-
+                <is_gateway>0</is_gateway>
+                <can_order>1</can_order>
+                <can_authorize>0</can_authorize>
+                <can_capture>0</can_capture>
+                <can_refund>0</can_refund>
+                <can_void>0</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <can_use_internal>1</can_use_internal>
+                <is_offline>1</is_offline>
             </offlinepayment>
-
         </payment>
-
     </default>
 
 </config>

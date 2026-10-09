@@ -1,15 +1,15 @@
 <?php
 namespace Codilar\ProductRestriction\Ui\Component\Listing\Column;
 
+use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
-use Magento\Framework\UrlInterface;
 
 class RestrictionActions extends Column
 {
     const URL_PATH_EDIT = 'codilar_productrestriction/restriction/edit';
-    const URL_PATH_DELETE = 'codilar_productrestriction/restriction/delete';
+
 
     protected $urlBuilder;
 
@@ -38,20 +38,8 @@ class RestrictionActions extends Column
                                 ]
                             ),
                             'label' => __('Edit')
-                        ],
-                        'delete' => [
-                            'href' => $this->urlBuilder->getUrl(
-                                static::URL_PATH_DELETE,
-                                [
-                                    'entity_id' => $item['entity_id']
-                                ]
-                            ),
-                            'label' => __('Delete'),
-                            'confirm' => [
-                                'title' => __('DeleteRestriction'),
-                                'message' => __('Are you sure you want to delete a record?')
-                            ]
                         ]
+
                     ];
                 }
             }

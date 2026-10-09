@@ -52,7 +52,7 @@
                         <message translate="true">Are you sure you want to delete selected items?</message>
                         <title translate="true">Delete items</title>
                     </confirm>
-                    <url path="codilar_productrestriction/restriction/Delete"/>
+                    <url path="codilar_productrestriction/restriction/MassDelete"/>
                     <type>delete</type>
                     <label translate="true">Delete</label>
                 </settings>

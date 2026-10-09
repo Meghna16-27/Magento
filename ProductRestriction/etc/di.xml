@@ -1,23 +1,78 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Codilar\ProductRestriction\Api\Data\ProductRestrictionInterface" type="Codilar\ProductRestriction\Model\ProductRestriction"/>
-    <preference for="Codilar\ProductRestriction\Api\ProductRestrictionRepositoryInterface" type="Codilar\ProductRestriction\Model\ProductRestrictionRepository"/>
 
-    <virtualType name="Codilar\ProductRestriction\Model\ResourceModel\ProductRestriction\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">codilar_product_restriction</argument>
-            <argument name="resourceModel" xsi:type="string">Codilar\ProductRestriction\Model\ResourceModel\ProductRestriction</argument>
-        </arguments>
-    </virtualType>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <!-- Existing preferences -->
+    <preference for="Codilar\ProductRestriction\Api\Data\ProductRestrictionInterface"
+                type="Codilar\ProductRestriction\Model\ProductRestriction"/>
+
+    <preference for="Codilar\ProductRestriction\Api\ProductRestrictionRepositoryInterface"
+                type="Codilar\ProductRestriction\Model\ProductRestrictionRepository"/>
+
+
+    <!-- Existing Product Restriction Grid Collection -->
+    <virtualType name="Codilar\ProductRestriction\Model\ResourceModel\ProductRestriction\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+
         <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="codilar_product_restriction_grid_data_source" xsi:type="string">Codilar\ProductRestriction\Model\ResourceModel\ProductRestriction\Grid\Collection</item>
+            <argument name="mainTable" xsi:type="string">
+                codilar_product_restriction
+            </argument>
+
+            <argument name="resourceModel" xsi:type="string">
+                Codilar\ProductRestriction\Model\ResourceModel\ProductRestriction
             </argument>
         </arguments>
+
+    </virtualType>
+
+
+    <!-- NEW: Product Grid Collection -->
+    <virtualType name="Codilar\ProductRestriction\Model\ResourceModel\Product\Grid\Collection"
+                 type="Magento\Catalog\Model\ResourceModel\Product\Collection">
+
+        <arguments>
+            <argument name="eventPrefix" xsi:type="string">
+                codilar_product_restriction_product_grid_collection
+            </argument>
+
+            <argument name="eventObject" xsi:type="string">
+                product_collection
+            </argument>
+        </arguments>
+
+    </virtualType>
+
+
+    <!-- Collection Factory -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+
+        <arguments>
+            <argument name="collections" xsi:type="array">
+
+                <!-- Existing restriction grid -->
+                <item name="codilar_product_restriction_grid_data_source"
+                      xsi:type="string">
+                    Codilar\ProductRestriction\Model\ResourceModel\ProductRestriction\Grid\Collection
+                </item>
+
+                <!-- NEW product grid -->
+                <item name="codilar_product_restriction_product_listing_data_source"
+                      xsi:type="string">
+                    Codilar\ProductRestriction\Model\ResourceModel\Product\Grid\Collection
+                </item>
+
+            </argument>
+        </arguments>
+
     </type>
+
+
+    <!-- Existing payment plugin -->
     <type name="Magento\Payment\Model\MethodList">
-        <plugin name="codilar_restrict_payment_methods" type="Codilar\ProductRestriction\Plugin\PaymentMethodRestriction"/>
+        <plugin name="codilar_restrict_payment_methods"
+                type="Codilar\ProductRestriction\Plugin\PaymentMethodRestriction"/>
     </type>
+
 </config>

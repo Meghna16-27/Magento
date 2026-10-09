@@ -45,14 +45,23 @@
                 <dataScope>entity_id</dataScope>
             </settings>
         </field>
-        <field name="sku" formElement="input" sortOrder="10">
+        <field name="sku"
+               component="Codilar_ProductRestriction/js/form/element/product-selector"
+               formElement="input"
+               sortOrder="10">
+
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Product SKU</label>
+                <dataScope>sku</dataScope>
+
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
+
+                <elementTmpl>Codilar_ProductRestriction/form/element/product-selector</elementTmpl>
             </settings>
+
         </field>
         <field name="max_qty" formElement="input" sortOrder="20">
             <settings>
@@ -66,4 +75,34 @@
             </settings>
         </field>
     </fieldset>
+    <modal name="product_selector_modal">
+
+        <settings>
+            <options>
+                <option name="title" xsi:type="string" translate="true">
+                    Select Product
+                </option>
+            </options>
+        </settings>
+
+        <insertListing name="codilar_product_restriction_product_listing">
+
+            <settings>
+
+                <autoRender>true</autoRender>
+
+                <ns>
+                    codilar_product_restriction_product_listing
+                </ns>
+
+                <externalProvider>
+                    codilar_product_restriction_product_listing.codilar_product_restriction_product_listing_data_source
+                </externalProvider>
+
+            </settings>
+
+        </insertListing>
+
+    </modal>
+
 </form>
