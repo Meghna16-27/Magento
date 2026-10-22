@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_xsd">
+    <system>
+        <section id="pincodevalidator" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Pincode Restriction</label>
+            <tab>codilar</tab>
+            <resource>Codilar_PincodeValidator::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Pincode Restriction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pincode_csv" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upload Pincode CSV</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\File</backend_model>
+                    <upload_dir config="system/filesystem/media">pincode_validator</upload_dir>
+                    <comment>Upload a CSV file containing valid delivery pincodes/zipcodes.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
