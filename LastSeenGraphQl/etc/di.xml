@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\CatalogGraphQl\Model\Resolver\Products">
+        <plugin name="codilar_last_seen_products_plugin"
+                type="Codilar\LastSeenGraphQl\Plugin\CatalogGraphQl\ProductsPlugin"
+                sortOrder="10"/>
+    </type>
+
+</config>

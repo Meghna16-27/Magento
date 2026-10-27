@@ -1,0 +1,5 @@
+extend interface ProductInterface {
+    last_seen: Boolean!
+        @doc(description: "Whether the product belongs to the customer's latest order")
+        @resolver(class: "Codilar\\LastSeenGraphQl\\Model\\Resolver\\LastSeen")
+}

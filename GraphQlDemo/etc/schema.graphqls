@@ -1,0 +1,42 @@
+type Query {
+    codilarMessage(productId: Int!): CodilarMessageOutput
+        @resolver(
+            class: "Codilar\\GraphQlDemo\\Model\\Resolver\\CodilarMessage"
+        )
+
+    greetings: [GreetingRecord]
+        @resolver(
+            class: "Codilar\\GraphQlDemo\\Model\\Resolver\\FetchGreetings"
+        )
+}
+
+type CodilarMessageOutput {
+    message: String!
+}
+type Mutation {
+    createGreeting(
+        name: String!
+        email: String!
+    ): GreetingRecord
+        @resolver(
+            class: "Codilar\\GraphQlDemo\\Model\\Resolver\\CreateGreeting"
+        )
+
+
+    updateGreeting(
+        id: Int!
+        name: String!
+        email: String!
+    ): GreetingRecord!
+        @resolver(class: "Codilar\\GraphQlDemo\\Model\\Resolver\\UpdateGreeting")
+
+     deleteGreeting(id: Int!): Boolean!
+         @resolver(class: "Codilar\\GraphQlDemo\\Model\\Resolver\\DeleteGreeting")
+}
+
+type GreetingRecord {
+    entity_id: Int
+    name: String!
+    email: String!
+    created_at: String
+}

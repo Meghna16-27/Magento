@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Codilar\GraphQlDemo\Api\GreetingManagementInterface"
+                type="Codilar\GraphQlDemo\Model\GreetingManagement"/>
+
+    <preference for="Codilar\GraphQlDemo\Api\Data\GreetingInterface"
+                type="Codilar\GraphQlDemo\Model\Greeting"/>
+
+</config>
