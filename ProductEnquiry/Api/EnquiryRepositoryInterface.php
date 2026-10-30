@@ -14,4 +14,9 @@ interface EnquiryRepositoryInterface
      */
     public function save(EnquiryInterface $enquiry): EnquiryInterface;
 
+    /**
+     * @param string|null $sku
+     * @return array
+     */
+    public function getList(?string $sku = null): array;
 }

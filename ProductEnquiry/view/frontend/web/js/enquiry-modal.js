@@ -1,9 +1,11 @@
+
 define([
     'jquery',
     'Magento_Ui/js/modal/modal',
     'mage/translate',
-    'mage/validation'
-], function ($, modal) {
+    'mage/validation',
+    'mage/url'
+], function ($, modal, $t, validation, urlBuilder) {
     'use strict';
 
     return function (config, element) {
@@ -15,69 +17,143 @@ define([
             type: 'popup',
             responsive: true,
             innerScroll: true,
-            title: $.mage.__('Product Enquiry'),
+            title: $t('Product Enquiry'),
             buttons: [{
-                text: $.mage.__('Submit Enquiry'),
+                text: $t('Submit Enquiry'),
                 class: 'action primary submit',
                 click: function () {
-                    $form.submit();
+                    $form.trigger('submit');
                 }
             }]
         };
 
         modal(options, $modalContainer);
 
+        $form.validation();
+
         $enquiryBtn.on('click', function () {
-            // Clear any old messages when opening the modal
             $('#enquiry-message-container').html('');
-            var currentSku = $('div.product-info-price [itemprop="sku"]').text().trim() || config.defaultSku;
+
+            var currentSku = $(
+                'div.product-info-price [itemprop="sku"]'
+            ).text().trim() || config.defaultSku || '';
+
             $('#enquiry-product-sku').val(currentSku);
             $modalContainer.modal('openModal');
         });
 
-        $form.off('submit').on('submit', function (e) {
-            e.preventDefault();
+        $form.off('submit.productEnquiry').on(
+            'submit.productEnquiry',
+            function (e) {
+                e.preventDefault();
 
-            if ($form.validation() && $form.validation('isValid')) {
+                if (!$form.validation('isValid')) {
+                    return;
+                }
+
+                var input = {
+                    name: $('#enquiry-name').val().trim(),
+                    address: $('#enquiry-address').val().trim(),
+                    email: $('#enquiry-email').val().trim(),
+                    sku: $('#enquiry-product-sku').val().trim(),
+                    qty: parseInt($('#enquiry-qty').val(), 10)
+                };
+
+                var mutation = `
+                    mutation SubmitProductEnquiry(
+                        $input: ProductEnquiryInput!
+                    ) {
+                        submitProductEnquiry(input: $input) {
+                            success
+                            message
+                        }
+                    }
+                `;
+
+                console.log('Submitting product enquiry through GraphQL', input);
+
                 $.ajax({
-                    url: config.submitUrl,
+                    url: config.graphqlUrl || urlBuilder.build('graphql'),
                     type: 'POST',
-                    data: $form.serialize(),
+                    contentType: 'application/json',
                     dataType: 'json',
-                    success: function (response) {
-                        if (response.success) {
-                            // 1. Close the popup modal
-                            $modalContainer.modal('closeModal');
+                    showLoader: true,
+                    data: JSON.stringify({
+                        query: mutation,
+                        variables: {
+                            input: input
+                        }
+                    }),
 
-                            // 2. Reset the form fields for next time
+                    success: function (response) {
+                        if (response.errors && response.errors.length) {
+                            console.error('GraphQL errors:', response.errors);
+                            alert(response.errors[0].message);
+                            return;
+                        }
+
+                        var result = response.data &&
+                            response.data.submitProductEnquiry;
+
+                        if (result && result.success) {
+                            $modalContainer.modal('closeModal');
                             $form[0].reset();
 
-                            // 3. Create the Magento-style green success message HTML
-                            var successHtml = '<div class="message-success success message" style="margin: 15px 0;"><div>' +
-                                $.mage.__('Thank you! Your product enquiry has been submitted successfully. We will get back to you shortly.') +
+                            var successHtml =
+                                '<div class="message-success success message" ' +
+                                'style="margin: 15px 0;"><div>' +
+                                $t(
+                                    'Thank you! Your product enquiry has been ' +
+                                    'submitted successfully. We will get back to ' +
+                                    'you shortly.'
+                                ) +
                                 '</div></div>';
 
-                            // 4. Inject it right above the product title/price info so it's guaranteed to be seen
                             if ($('.product-info-main').length) {
                                 $('.product-info-main').prepend(successHtml);
                             } else {
                                 $('main.page-main').prepend(successHtml);
                             }
 
-                            // Optional: Auto-hide the success message after 6 seconds so it doesn't stay forever
-                            setTimeout(function() {
-                                $('.message-success').fadeOut('slow', function() {
-                                    $(this).remove();
-                                });
+                            setTimeout(function () {
+                                $('.product-info-main .message-success')
+                                    .fadeOut('slow', function () {
+                                        $(this).remove();
+                                    });
                             }, 6000);
-
                         } else {
-                            alert(response.message || $.mage.__('Error submitting enquiry. Please try again.'));
+                            alert(
+                                (result && result.message) ||
+                                $t('Unable to submit the enquiry.')
+                            );
                         }
-                    }
+                    },
 
+                    error: function (xhr) {
+                        console.error(
+                            'Product enquiry GraphQL request failed:',
+                            xhr.status,
+                            xhr.responseText
+                        );
+
+                        var message = $t(
+                            'Something went wrong while submitting the enquiry.'
+                        );
+
+                        try {
+                            var response = JSON.parse(xhr.responseText);
+
+                            if (response.errors && response.errors.length) {
+                                message = response.errors[0].message;
+                            }
+                        } catch (error) {
+                            // Keep the generic error message.
+                        }
+
+                        alert(message);
+                    }
                 });
             }
-        });
+        );
     };
 });

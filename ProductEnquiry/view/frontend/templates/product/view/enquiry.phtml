@@ -50,9 +50,9 @@ if ($product->getTypeId() !== 'configurable'):
         {
             "#open-enquiry-modal": {
                 "Codilar_ProductEnquiry/js/enquiry-modal": {
-                    "submitUrl": "<?= $block->getUrl('codilar_productenquiry/index/submit') ?>"
-                }
-            }
+                    "graphqlUrl": "<?= $block->getUrl('graphql') ?>"
         }
+    }
+}
     </script>
 <?php endif; ?>

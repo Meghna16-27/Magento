@@ -1,0 +1,39 @@
+type Mutation {
+    submitProductEnquiry(
+        input: ProductEnquiryInput!
+    ): ProductEnquiryResponse!
+        @resolver(
+            class: "Codilar\\ProductEnquiry\\Model\\Resolver\\SubmitProductEnquiry"
+        )
+}
+
+input ProductEnquiryInput {
+    name: String!
+    address: String!
+    email: String!
+    sku: String!
+    qty: Int!
+}
+
+type ProductEnquiryResponse {
+    success: Boolean!
+    message: String!
+}
+type Query {
+    productEnquiries(
+        sku: String
+    ): [ProductEnquiry!]!
+        @resolver(
+            class: "Codilar\\ProductEnquiry\\Model\\Resolver\\ProductEnquiries"
+        )
+}
+
+type ProductEnquiry {
+    entity_id: Int!
+    name: String!
+    address: String!
+    email: String!
+    sku: String!
+    qty: Int!
+    created_at: String
+}
